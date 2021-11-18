@@ -1,0 +1,187 @@
+import java.util.Arrays;
+import java.util.Random;
+import java.util.Scanner;
+
+
+//Class for this project, project03.java which contains our code.
+public class project03 {
+
+    //This is the main method, which contains two methods, that then contain more methods! It gets the dice rolling.
+
+    public static void main(String[] args) {
+        printWelcomeMessage();
+        diceRollerThing();
+    }
+
+    //This is a generic method to find the sum of our array. Set a value to 0, then roll through the array adding each indexes value.
+
+    static int findSum(int[] intArray){
+        int totalSum = 0;
+    for(int i = 0; i < intArray.length; i++){
+        totalSum += intArray[i];
+                }
+        System.out.println("Sum is: " + totalSum);
+    return -1;
+    }
+
+    //This is a generic method to find the average of our array and return it as a double.
+
+    static double findAverage(int[] intArray){
+        double newSum = 0.0;
+        double length = intArray.length;
+        for(int i = 0; i< intArray.length; i++){
+            newSum += intArray[i];
+        }
+        System.out.println("Average is: " + newSum/length);
+        return newSum/length;
+    }
+
+    //This is a generic method to find the median of our array and return it as a double.
+
+    static double findMedian(int rollS,int diceArray[]) {
+        double median=0;
+        if(rollS%2==1) {
+            median=diceArray[((rollS+1)/2)-1];
+        } else {
+            median=(diceArray[rollS/2-1]+diceArray[rollS/2])/2;
+        }
+        System.out.println("Median is: " + median);
+        return median;
+    }
+
+//This is a generic method that prints a welcome message.
+
+    static void printWelcomeMessage() {
+        System.out.println("Super Dice Roller V2");
+    }
+
+    //This is a generic method that prompts our user for an integer.
+
+    static int promptForInteger(String prompt) {
+        Scanner userInput = new Scanner(System.in);
+        System.out.print("Enter the number of dice to roll (0 to exit): ");
+        int diceRolls = userInput.nextInt();
+        int howManyRolls = diceRolls;
+        return howManyRolls;
+    }
+
+    //This is a generic method to prompt the user for the amount of sides on the dice they want to roll.
+
+    static int promptForSides(String prompt) {
+        Scanner userInput = new Scanner(System.in);
+        System.out.print("Enter the number of sides on the dice: ");
+        int diceSides = userInput.nextInt();
+        return diceSides;
+    }
+
+    //This is a generic method for randomizing the array. Passing in our dice array, number of sides.
+
+    static void randomizeArray(int[] intArray, int numSides) {
+        Random diceRoller = new Random();
+        for (int i = 0; i < intArray.length; i++) {
+            int randomNumber = diceRoller.nextInt((numSides - 1) + 1) + 1;
+            intArray[i] = randomNumber;
+        }
+    }
+
+    //This is a generic method for a linear search.
+
+    static int linearSearch(int arr[], int x) {
+        int n = arr.length;
+        for (int i = 0; i < n; i++) {
+            if (arr[i] == x) {
+                System.out.println("Linear search: " + x + " found at index " + i);
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    //This is a generic method for a binary search.
+
+    static int binarySearch (int arr[], int x){
+        int leftSide = 0;
+        int rightSide = arr.length - 1;
+        while(leftSide<=rightSide){
+            int middle = (leftSide + rightSide) / 2;
+            if(x == arr[middle]){
+                return middle;
+            } else if (x < arr[middle]) {
+                rightSide = middle - 1;
+            } else {
+                leftSide = middle + 1;
+            }
+        }
+        return -1;
+    }
+
+    //This is a generic bubble sort method.
+
+    static void bubbleSort(int arrayZ[])
+    {
+        int n = arrayZ.length;
+        for (int i = 0; i < n-1; i++)
+            for (int j = 0; j < n-i-1; j++)
+                if (arrayZ[j] > arrayZ[j+1])
+                {
+                    int temp = arrayZ[j];
+                    arrayZ[j] = arrayZ[j+1];
+                    arrayZ[j+1] = temp;
+                }
+        System.out.println("Sorting array: " + Arrays.toString(arrayZ));
+    }
+
+    //this is a generic method to find the largest number in the array.
+
+    static int findMax(int[] arrayMax){
+        int maximum = arrayMax[0];
+        for (int i=1;i<arrayMax.length; i++){
+            if(arrayMax[i] > maximum){
+                maximum = arrayMax[i];
+            }
+        }
+        System.out.println("Maximum: " + maximum);
+        return maximum;
+    }
+
+    //This is a generic method to find the smallest number in the array.
+
+    static int findMin(int[] arrayMin){
+        int minVal = arrayMin[0];
+        for(int i=1;i<arrayMin.length;i++){
+            if(arrayMin[i]<minVal){
+                minVal = arrayMin[i];
+            }
+        }
+        System.out.println("Minimum: " + minVal);
+        return minVal;
+    }
+
+    //This is a method that contains all of our methods to roll some dice, running until 0 or negative numbers are typed in.
+
+    static void diceRollerThing() {
+        while (true) {
+            Scanner userInput = new Scanner(System.in);
+            int integerP = promptForInteger("");
+            if(integerP <= 0) break;
+            int integerS = promptForSides("");
+            if(integerS <= 0) break;
+            int[] diceArrayZ = new int[integerP];
+            randomizeArray(diceArrayZ, integerS);
+            System.out.println("Rolling " + integerP + " D" + integerS + ": " + Arrays.toString(diceArrayZ));
+            bubbleSort(diceArrayZ);
+            findSum(diceArrayZ);
+            findMax(diceArrayZ);
+            findMin(diceArrayZ);
+            findAverage(diceArrayZ);
+            findMedian(integerP, diceArrayZ);
+            System.out.print("Enter the number to search for: ");
+            int searchNumber = userInput.nextInt();
+            linearSearch(diceArrayZ, searchNumber);
+            System.out.print("Binary search: " + searchNumber + " found at index " + binarySearch(diceArrayZ, searchNumber));
+            System.out.println("");
+            System.out.println("");
+        }
+    }
+
+}
